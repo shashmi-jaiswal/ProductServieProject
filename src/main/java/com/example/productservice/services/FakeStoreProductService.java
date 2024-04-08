@@ -3,12 +3,17 @@ package com.example.productservice.services;
 import com.example.productservice.dtos.FakeStoreProductDto;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpMessageConverterExtractor;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-@Service
+import java.util.Map;
+
+@Service("fakeStoreProductService")
 //Can also be written as @Component but using @Service is a good practice
 public class FakeStoreProductService implements ProductService{
     //To do this we need to create an Object of RestTemplate
@@ -23,7 +28,7 @@ public class FakeStoreProductService implements ProductService{
 
     private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto){
         Product product = new Product();
-        product.setId(fakeStoreProductDto.getId());
+        //product.setId(fakeStoreProductDto.getId());
         product.setDescription(fakeStoreProductDto.getDescription());
         product.setPrice(fakeStoreProductDto.getPrice());
         product.setImage(fakeStoreProductDto.getImage());
@@ -37,6 +42,7 @@ public class FakeStoreProductService implements ProductService{
     @Override
     public Product getAllProductbyId(Long id) {
         //Create an API call to FakeProduct Store to return the Product of that id
+        //throw new RuntimeException("Something went wrong");
         FakeStoreProductDto fakeStoreProductDto =
                 restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
 
@@ -81,13 +87,17 @@ public class FakeStoreProductService implements ProductService{
 
     @Override
     public Product updateProduct(Long id) {
-        restTemplate.put();
+        //restTemplate.put();
         return null;
     }
 
     @Override
-    public Product replaceProduct(Long id) {
-        return null;
+    public Product replaceProduct(Long id, Product product) {
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(product,FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor =
+                new HttpMessageConverterExtractor(FakeStoreProductDto.class, restTemplate.getMessageConverters());
+        FakeStoreProductDto fakeStoreProductDtoReplaced =  restTemplate.execute("https://fakestoreapi.com/products/7'", HttpMethod.PUT, requestCallback, responseExtractor);
+        return convertFakeStoreProductDtoToProduct(fakeStoreProductDtoReplaced);
     }
 
     @Override

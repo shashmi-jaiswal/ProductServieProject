@@ -1,7 +1,11 @@
 package com.example.productservice.controllers;
 
 import com.example.productservice.models.Product;
+import com.example.productservice.services.FakeStoreProductService;
 import com.example.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,15 +17,17 @@ public class ProductController {
 
     private ProductService productService;
 
-    ProductController(ProductService productService){
+    ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
         this.productService = productService;
     }
 
     //localhost:8080/products/10  -- This number at the end can be any id.
     //The Pathvariable will read the id number and use as input.
     @GetMapping("/{id}")
-    public Product getProductbyId(@PathVariable("id") Long id){
-        return productService.getAllProductbyId(id);
+    public ResponseEntity<Product> getProductbyId(@PathVariable("id") Long id){
+
+        Product product =  productService.getAllProductbyId(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     //localhost:8080/products
@@ -44,7 +50,7 @@ public class ProductController {
     //Replace a product
     @PostMapping("{id}")
     public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product){
-        return new Product();
+        return productService.replaceProduct(id, product);
     }
 
     //Delete a product
