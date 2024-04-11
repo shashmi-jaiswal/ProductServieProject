@@ -13,7 +13,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseModel {
     @Id
-    private long id;
+    private Long id;
     private Date createdAt;
     private Date updatedAt;
 }

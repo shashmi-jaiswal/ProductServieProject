@@ -26,6 +26,17 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductbyId(@PathVariable("id") Long id){
 
+        //throw new RuntimeException("Something went wrong");
+//        Product product = null;
+//        try {
+//            product = productService.getProductById(id);
+//        } catch (RuntimeException e) {
+//            System.out.println("Something went wrong");
+//            return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            return
+//        }
+
         Product product =  productService.getAllProductbyId(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -40,7 +51,9 @@ public class ProductController {
     //Request Body will read the given JSON input and convert it to class Product
     @PostMapping
     public Product createProduct(@RequestBody Product product){
-        return new Product();
+        productService.createProduct(Product product);
+
+        //return new Product();
     }
     //Partial Update of a product
     @PatchMapping("{id}")

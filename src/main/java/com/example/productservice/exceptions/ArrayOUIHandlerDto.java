@@ -1,4 +1,4 @@
-package com.example.productservice.dtos;
+package com.example.productservice.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

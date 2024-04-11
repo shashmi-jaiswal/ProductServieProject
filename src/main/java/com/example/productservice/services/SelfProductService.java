@@ -14,9 +14,8 @@ public class SelfProductService implements ProductService{
         this.productRepository = productRepository;
     }
 
-
     @Override
-    public Product getAllProductbyId(Long id) {
+    public Product getAllProduct(Long id) {
         Optional<Product> optionalproduct = productRepository.findById(id);
         if (optionalproduct.isEmpty()){
             return null;
@@ -27,8 +26,8 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return null;
+    public List<Product> getAllProducts( ) {
+        return productRepository.findAll();
     }
 
     @Override
@@ -48,6 +47,7 @@ public class SelfProductService implements ProductService{
 
     @Override
     public void deleteProduct(Long id) {
+        productRepository.deleteById(Long id);
 
     }
 }
