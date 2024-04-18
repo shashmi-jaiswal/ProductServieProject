@@ -3,34 +3,37 @@ package com.example.productservice.repositories;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.PropertyPermission;
 
+@Repository
 public interface ProductRepository
     extends JpaRepository<Product,Long > {
 
     Optional<Product> findById(Long id);
-    List<Product> findAll();
-    List<Product> findByCategory(Category category);
 
-    Optional<Product> findProductByTitle(String title);
+    Optional<Product> findByTitleAndDescription(String title,
+                                                String description);
 
-    Optional<Product> findProductByTitleAAndCategory(String title, String category);
-    List<Product> findTopThreeByTitle(String title); //Limit top 3 results
+    List<Product> findByTitleContaining(String word);
+    //Using like operator.
+
+    List<Product> findTopThreeByTitle(String title); // limit the result by 3
+
+    Optional<Product> findByCategory(Category category);
 
     void deleteById(Long id);
-    void deleteByCategory(Category category);
-    void  deleteByTitle(String title);
+
+    void deleteByTitle(String title);
+
     Product save(Product product);
 
 }
-    /*
-    C Create
-    R Replace
-    U Update
-    D Delete
 
-    Product save(Product product);
-      */
+//    @Query("Custom Query") //HQL -> Hibernate Query Language
+//    Optional<Product> someRandomQuery();
+
+

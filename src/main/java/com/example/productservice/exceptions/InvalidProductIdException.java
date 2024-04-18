@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ArithmeticHandleExceptionDto {
+public class InvalidProductIdException extends Exception{
     private String message;
-    private String detail;
 }
