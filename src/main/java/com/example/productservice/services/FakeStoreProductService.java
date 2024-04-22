@@ -48,7 +48,7 @@ public class FakeStoreProductService implements ProductService{
                 restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
 
         if (fakeStoreProductDto == null){
-            throw new InvalidProductIdException();
+            throw new InvalidProductIdException("Invalid Product ID Passed");
             //return null;
         }
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);

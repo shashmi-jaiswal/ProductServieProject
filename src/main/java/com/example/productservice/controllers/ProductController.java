@@ -56,6 +56,7 @@ public class ProductController {
 
         //return new Product();
     }
+
     //Partial Update of a product
     @PatchMapping("{id}")
     public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
@@ -76,6 +77,6 @@ public class ProductController {
     @ExceptionHandler(ProductControllerSpecificException.class)
     public ResponseEntity<Void> productControllerSpecificException(){
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    //This type of excpetion is thrown only from this controller
+    //This type of except ion is thrown only from this controller
     }
 }

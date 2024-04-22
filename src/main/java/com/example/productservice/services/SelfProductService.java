@@ -14,16 +14,17 @@ import java.util.Optional;
 public class SelfProductService implements ProductService {
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
-    SelfProductService(ProductRepository productRepository){
+    SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository){
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public Product getAllProductbyId(Long id) throws InvalidProductIdException {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()){
-            throw new InvalidProductIdException();
-            //throw new RuntimeException("This is an error in the getProductbyId");
+            throw new InvalidProductIdException("Invalid Exception ");
+            //throw new RuntimeException("This is an error in the getAllProductbyId");
             //return null;
         }
         else{
